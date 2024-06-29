@@ -4,7 +4,17 @@
 
 Canvas::Canvas(int width, int height){
 
+    const float cellWidth = width / ARRAY_SIZE;
+    const float cellHeight = height / ARRAY_SIZE;
 
+    for(int col = 0; col < ARRAY_SIZE; col++){
+        for(int row = 0; row < ARRAY_SIZE; row++){
+            float x = col * cellWidth; 
+            float y = row * cellHeight;    
+            cells[col][row].setPosition(sf::Vector2f(x, y));
+            cells[col][row].setSize(sf::Vector2f(cellWidth, cellHeight));
+        }
+    }
 
     sf::ContextSettings settings; 
     settings.antialiasingLevel = 5;
@@ -40,6 +50,12 @@ void Canvas::handleEvents(){
 
 void Canvas::render(){
     window.clear(sf::Color::Black); 
+
+    for(int i = 0; i < ARRAY_SIZE; i++){
+        for(int j = 0; j < ARRAY_SIZE; j++){
+            cells[i][j].show(window);
+        }
+    }
 
     window.display();
 }
