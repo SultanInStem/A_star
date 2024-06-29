@@ -4,9 +4,9 @@
 
 class Cell{
     private: 
-        sf::RectangleShape shape; 
+        sf::RectangleShape rect; 
     public: 
-        Cell(); 
+        Cell(float x=0, float y=0); 
         ~Cell(); 
 };
 
