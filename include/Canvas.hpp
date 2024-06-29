@@ -12,13 +12,13 @@ class Canvas{
         void handleEvents(); 
         void render();
 
-        static const int ARRAY_SIZE = 50;
+        static const int ARRAY_SIZE = 50; // provide multiples of 10 please
         Cell cells[ARRAY_SIZE][ARRAY_SIZE];
 
 
 
     public: 
-        Canvas(int width=500, int height=500); 
+        Canvas(int size = 1000); 
         ~Canvas();
         void run(); 
 };

@@ -1,11 +1,12 @@
 #include "Canvas.hpp"
 #include "Cell.hpp"
+#include <cmath>
 
+Canvas::Canvas(int size){
+    size = (int)(floor(size / 10) * 10);
 
-Canvas::Canvas(int width, int height){
-
-    const float cellWidth = width / ARRAY_SIZE;
-    const float cellHeight = height / ARRAY_SIZE;
+    const float cellWidth = size / ARRAY_SIZE;
+    const float cellHeight = size / ARRAY_SIZE;
 
     for(int col = 0; col < ARRAY_SIZE; col++){
         for(int row = 0; row < ARRAY_SIZE; row++){
@@ -18,7 +19,7 @@ Canvas::Canvas(int width, int height){
 
     sf::ContextSettings settings; 
     settings.antialiasingLevel = 5;
-    window.create(sf::VideoMode(width, height), "A_star",  sf::Style::Titlebar | sf::Style::Close, settings);
+    window.create(sf::VideoMode(size, size), "A_star",  sf::Style::Titlebar | sf::Style::Close, settings);
     window.setFramerateLimit(60); 
 }
 
