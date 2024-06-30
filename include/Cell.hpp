@@ -37,6 +37,9 @@ class Cell{
                 rect.setFillColor(sf::Color::White);
             }
         }
+        void setParent(Cell*& newParent){
+            parent = newParent; 
+        }
         void setIsStart(bool start){
             isStart = start; 
             if(isStart) rect.setFillColor(sf::Color::Green);

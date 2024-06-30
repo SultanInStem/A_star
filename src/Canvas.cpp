@@ -13,15 +13,36 @@ float randomFloat(float min, float max){
     float randomFloat = distribution(gen);
     return randomFloat;
 }
+void swap(Cell*& a, Cell*& b) {
+    Cell* temp = a;
+    a = b;
+    b = temp;
+}
+int partition(std::vector<Cell*>& arr, int low, int high) {
+    float pivot = arr[high]->heuristic; // Pivot element
+    int i = low - 1; // Index of smaller element
+
+    for (int j = low; j < high; ++j) {
+        if (arr[j]->heuristic < pivot) {
+            ++i; // Increment index of smaller element
+            swap(arr[i], arr[j]);
+        }
+    }
+    swap(arr[i + 1], arr[high]);
+    return i + 1;
+}
+void quickSort(std::vector<Cell*>& arr, int low, int high) {
+    if (low < high) {
+        int pi = partition(arr, low, high); // Partitioning index
+
+        // Recursively sort elements before and after partition
+        quickSort(arr, low, pi - 1);
+        quickSort(arr, pi + 1, high);
+    }
+}
 
 float getHeuristic(Cell& a, Cell& b){
     // diagonal distance heuristic 
-//     float dx = abs(a.getPos().x - b.getPos().y); 
-//     float dy = abs(a.getPos().y - b.getPos().y); 
-//     float min = dx <= dy ? dx : dy; 
-//     float D = a.getLength(); 
-//     float D2 = sqrt(pow(a.getPos().x, 2) + pow(a.getPos().y, 2)); 
-//     return D * (dx + dy) + (D2 - 2 * D) * min;
     return 0; 
 }
 float getDistance(const sf::Vector2f& A, const sf::Vector2f& B){
@@ -84,6 +105,20 @@ void Canvas::run(){
 void Canvas::update(float dt){
     if(!openSet.empty()){
         // keep evaluating 
+        std::vector<Cell*> neighbors;
+        for(int i = openSet.size() - 1; i >= 0; i--){
+            neighbors = openSet[i]->getNeigbors();
+            for(int j = 0; j < neighbors.size(); j++){
+                float dist = getDistance(neighbors[j]->getPos(), openSet[i]->getPos());
+                if(openSet[i]->cost + dist < neighbors[j]->cost){
+                    neighbors[j]->cost = openSet[i]->cost + dist; 
+                    neighbors[j]->heuristic = getDistance(neighbors[j]->getPos(), cells[MATRIX_SIZE - 1][MATRIX_SIZE - 1].getPos()) + dist;
+                    neighbors[j]->setParent(openSet[i]);
+                    openSet.push_back(neighbors[j]); 
+                }
+            }
+            openSet.erase(openSet.begin() + i);
+        }
     }else{
         // no solution 
     }
