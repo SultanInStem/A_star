@@ -1,9 +1,14 @@
+#include <iostream>
 #include "Canvas.hpp"
 #include "Cell.hpp"
 #include <cmath>
+using std::cout;
 
 Canvas::Canvas(int size){
     size = (int)(floor(size / 10) * 10);
+
+    cout << size << "\n";
+    
 
     const float cellWidth = size / ARRAY_SIZE;
     const float cellHeight = size / ARRAY_SIZE;
