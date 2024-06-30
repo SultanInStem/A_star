@@ -1,7 +1,7 @@
 #include <iostream> 
 #include "Canvas.hpp"
 int main(){
-    Canvas canvas(1023);
+    Canvas canvas(700);
     canvas.run();
     return 0; 
 }

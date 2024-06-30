@@ -2,23 +2,35 @@
 #include "Canvas.hpp"
 #include "Cell.hpp"
 #include <cmath>
+#include <random> 
 using std::cout;
 
+
+float randomFloat(float min, float max){
+    std::random_device rd; 
+    std::mt19937 gen(rd());
+    std::uniform_real_distribution<float> distribution(min, max);
+    float randomFloat = distribution(gen);
+    return randomFloat;
+}
+
+
 Canvas::Canvas(int size){
-    size = (int)(floor(size / 10) * 10);
+    size = (int)(floor(size / MATRIX_SIZE) * MATRIX_SIZE);
 
-    cout << size << "\n";
-    
+    const float cellWidth = size / MATRIX_SIZE;    
+    const float cellHeight = size / MATRIX_SIZE;
 
-    const float cellWidth = size / ARRAY_SIZE;
-    const float cellHeight = size / ARRAY_SIZE;
-
-    for(int col = 0; col < ARRAY_SIZE; col++){
-        for(int row = 0; row < ARRAY_SIZE; row++){
+    for(int row = 0; row < MATRIX_SIZE; row++){
+        for(int col = 0; col < MATRIX_SIZE; col++){
             float x = col * cellWidth; 
             float y = row * cellHeight;    
-            cells[col][row].setPosition(sf::Vector2f(x, y));
-            cells[col][row].setSize(sf::Vector2f(cellWidth, cellHeight));
+            cells[row][col].setPosition(sf::Vector2f(x, y));
+            cells[row][col].setSize(sf::Vector2f(cellWidth, cellHeight));
+            float random = randomFloat(0,10);
+            if(random < 2){
+                cells[row][col].setIsWall(true);
+            }
         }
     }
 
@@ -57,8 +69,8 @@ void Canvas::handleEvents(){
 void Canvas::render(){
     window.clear(sf::Color::Black); 
 
-    for(int i = 0; i < ARRAY_SIZE; i++){
-        for(int j = 0; j < ARRAY_SIZE; j++){
+    for(int i = 0; i < MATRIX_SIZE; i++){
+        for(int j = 0; j < MATRIX_SIZE; j++){
             cells[i][j].show(window);
         }
     }

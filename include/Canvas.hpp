@@ -12,8 +12,8 @@ class Canvas{
         void handleEvents(); 
         void render();
 
-        static const int ARRAY_SIZE = 50; // provide multiples of 10 please
-        Cell cells[ARRAY_SIZE][ARRAY_SIZE];
+        static const int MATRIX_SIZE = 50; // provide multiples of 10 please
+        Cell cells[MATRIX_SIZE][MATRIX_SIZE];
 
 
 

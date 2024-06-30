@@ -5,7 +5,14 @@
 class Cell{
     private: 
         sf::RectangleShape rect; 
-        float isWall = false;
+        bool isWall = false;
+        bool isVisited = false; 
+        float globalGoal;  
+        float localGoal; 
+        Cell* parent = nullptr; 
+        std::vector<Cell*> neighbors;
+
+        
     public: 
         Cell(float x=0, float y=0); 
         ~Cell(); 
@@ -17,6 +24,14 @@ class Cell{
         }
         void show(sf::RenderWindow& window){
             window.draw(rect);
+        }
+        void setIsWall(bool isItWall){
+            isWall = isItWall; 
+            if(isWall){
+                rect.setFillColor(sf::Color::Black);
+            }else{
+                rect.setFillColor(sf::Color::White);
+            }
         }
 };
 
