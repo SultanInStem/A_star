@@ -16,12 +16,16 @@ float randomFloat(float min, float max){
 
 float getHeuristic(Cell& a, Cell& b){
     // diagonal distance heuristic 
-    float dx = abs(a.getPos().x - b.getPos().y); 
-    float dy = abs(a.getPos().y - b.getPos().y); 
-    float min = dx <= dy ? dx : dy; 
-    float D = a.getLength(); 
-    float D2 = sqrt(pow(a.getPos().x, 2) + pow(a.getPos().y, 2)); 
-    return D * (dx + dy) + (D2 - 2 * D) * min;
+//     float dx = abs(a.getPos().x - b.getPos().y); 
+//     float dy = abs(a.getPos().y - b.getPos().y); 
+//     float min = dx <= dy ? dx : dy; 
+//     float D = a.getLength(); 
+//     float D2 = sqrt(pow(a.getPos().x, 2) + pow(a.getPos().y, 2)); 
+//     return D * (dx + dy) + (D2 - 2 * D) * min;
+    return 0; 
+}
+float getDistance(const sf::Vector2f& A, const sf::Vector2f& B){
+    return sqrt(pow(A.x - B.x, 2) + pow(A.y - B.y, 2));
 }
 
 
@@ -52,8 +56,8 @@ Canvas::Canvas(int size){
 
     cells[0][0].setIsStart(true); 
     cells[0][0].cost = 0; 
-    cells[0][0].heuristic = getHeuristic(cells[0][0], cells[MATRIX_SIZE - 1][MATRIX_SIZE - 1]);
-    // cells[0][0]
+    cells[0][0].heuristic = getDistance(cells[0][0].getPos(), cells[MATRIX_SIZE - 1][MATRIX_SIZE - 1].getPos());
+    cout << cells[0][0].heuristic << "\n"; 
     cells[MATRIX_SIZE - 1][MATRIX_SIZE - 1].setIsEnd(true); 
 
     openSet.push_back(&cells[0][0]);
