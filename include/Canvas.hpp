@@ -13,9 +13,11 @@ class Canvas{
         void render();
 
         static const int MATRIX_SIZE = 50; // provide multiples of 10 please
-        Cell cells[MATRIX_SIZE][MATRIX_SIZE];
+        Cell cells[MATRIX_SIZE][MATRIX_SIZE]; 
 
 
+        std::vector<Cell*> openSet; 
+        std::vector<Cell*> closedSet; 
 
     public: 
         Canvas(int size = 1000); 

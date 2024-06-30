@@ -20,7 +20,6 @@ Canvas::Canvas(int size){
 
     const float cellWidth = size / MATRIX_SIZE;    
     const float cellHeight = size / MATRIX_SIZE;
-
     for(int row = 0; row < MATRIX_SIZE; row++){
         for(int col = 0; col < MATRIX_SIZE; col++){
             float x = col * cellWidth; 
@@ -33,6 +32,11 @@ Canvas::Canvas(int size){
             }
         }
     }
+
+    cells[0][0].setIsStart(true); 
+    cells[MATRIX_SIZE - 1][MATRIX_SIZE - 1].setIsEnd(true); 
+
+    openSet.push_back(&cells[0][0]);
 
     sf::ContextSettings settings; 
     settings.antialiasingLevel = 5;
@@ -54,7 +58,11 @@ void Canvas::run(){
 }
 
 void Canvas::update(float dt){
-
+    if(!openSet.empty()){
+        // keep evaluating 
+    }else{
+        // no solution 
+    }
 }
 
 void Canvas::handleEvents(){
