@@ -51,8 +51,9 @@ Canvas::Canvas(int size){
     }
 
     cells[0][0].setIsStart(true); 
-    cells[0][0].setCost(0); 
-    cells[0][0].setHeuristic(getHeuristic(cells[0][0], cells[MATRIX_SIZE - 1][MATRIX_SIZE - 1]));
+    cells[0][0].cost = 0; 
+    cells[0][0].heuristic = getHeuristic(cells[0][0], cells[MATRIX_SIZE - 1][MATRIX_SIZE - 1]);
+    // cells[0][0]
     cells[MATRIX_SIZE - 1][MATRIX_SIZE - 1].setIsEnd(true); 
 
     openSet.push_back(&cells[0][0]);
