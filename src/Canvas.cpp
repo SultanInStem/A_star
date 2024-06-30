@@ -14,6 +14,16 @@ float randomFloat(float min, float max){
     return randomFloat;
 }
 
+float getHeuristic(Cell& a, Cell& b){
+    // diagonal distance heuristic 
+    float dx = abs(a.getPos().x - b.getPos().y); 
+    float dy = abs(a.getPos().y - b.getPos().y); 
+    float min = dx <= dy ? dx : dy; 
+    float D = a.getLength(); 
+    float D2 = sqrt(pow(a.getPos().x, 2) + pow(a.getPos().y, 2)); 
+    return D * (dx + dy) + (D2 - 2 * D) * min;
+}
+
 
 Canvas::Canvas(int size){
     size = (int)(floor(size / MATRIX_SIZE) * MATRIX_SIZE);
@@ -34,6 +44,8 @@ Canvas::Canvas(int size){
     }
 
     cells[0][0].setIsStart(true); 
+    cells[0][0].setCost(0); 
+    cells[0][0].setHeuristic(getHeuristic(cells[0][0], cells[MATRIX_SIZE - 1][MATRIX_SIZE - 1]));
     cells[MATRIX_SIZE - 1][MATRIX_SIZE - 1].setIsEnd(true); 
 
     openSet.push_back(&cells[0][0]);

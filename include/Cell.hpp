@@ -9,9 +9,10 @@ class Cell{
         bool isWall = false;
         bool isVisited = false; 
         bool isStart = false; 
-        bool isEnd = false; 
-        float cost = std::numeric_limits<float>::infinity(); 
-        float heuristic = std::numeric_limits<float>::infinity(); 
+        bool isEnd = false;  
+
+        float cost = std::numeric_limits<float>::infinity(); // blue
+        float heuristic = std::numeric_limits<float>::infinity();  // red
         float f = 0; 
         Cell* parent = nullptr; 
         std::vector<Cell*> neighbors; 
@@ -43,6 +44,18 @@ class Cell{
         void setIsEnd(bool end){
             isEnd = end; 
             if(isEnd) rect.setFillColor(sf::Color::Red); 
+        }
+        void setCost(float num){
+            cost = num; 
+        }
+        void setHeuristic(float num){
+            heuristic = num; 
+        }
+        sf::Vector2f getPos(){
+            return rect.getPosition(); 
+        }
+        float getLength(){
+            return rect.getSize().x; 
         }
 };
 
