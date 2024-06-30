@@ -78,11 +78,8 @@ Canvas::Canvas(int size){
     nodeEnd = &cells[MATRIX_SIZE - 1][MATRIX_SIZE - 1]; 
     nodeStart = &cells[0][0];  
 
-
-    nodeStart->setIsStart(true); 
     nodeStart->cost = 0; 
     nodeStart->heuristic = getDistance(nodeStart->getPos(), nodeEnd->getPos());
-    nodeEnd->setIsEnd(true); 
 
 
 
@@ -131,7 +128,9 @@ void Canvas::render(){
 
     for(int i = 0; i < MATRIX_SIZE; i++){
         for(int j = 0; j < MATRIX_SIZE; j++){
-            cells[i][j].show(window);
+            if(&cells[i][j] == nodeStart) cells[i][j].setColor(sf::Color::Green); 
+            else if(&cells[i][j] == nodeEnd) cells[i][j].setColor(sf::Color::Red); 
+            cells[i][j].show(window); 
         }
     }
 

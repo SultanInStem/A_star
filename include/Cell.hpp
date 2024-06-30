@@ -14,8 +14,6 @@ class Cell{
         ~Cell(); 
         bool isWall = false;
         bool isVisited = false; 
-        bool isStart = false; 
-        bool isEnd = false;  
 
         float cost = std::numeric_limits<float>::infinity(); // blue
         float heuristic = std::numeric_limits<float>::infinity();  // red
@@ -40,13 +38,8 @@ class Cell{
         void setParent(Cell*& newParent){
             parent = newParent; 
         }
-        void setIsStart(bool start){
-            isStart = start; 
-            if(isStart) rect.setFillColor(sf::Color::Green);
-        }
-        void setIsEnd(bool end){
-            isEnd = end; 
-            if(isEnd) rect.setFillColor(sf::Color::Red); 
+        void setColor(sf::Color color){
+            rect.setFillColor(color);
         }
         void setNeighbors(std::vector<Cell*> cellNeighbors){
             neighbors = cellNeighbors; 
