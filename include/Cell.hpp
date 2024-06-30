@@ -51,11 +51,17 @@ class Cell{
         void setHeuristic(float num){
             heuristic = num; 
         }
+        void setNeighbors(std::vector<Cell*> cellNeighbors){
+            neighbors = cellNeighbors; 
+        }
         sf::Vector2f getPos(){
             return rect.getPosition(); 
         }
         float getLength(){
             return rect.getSize().x; 
+        }
+        std::vector<Cell*> getNeigbors(){
+            return neighbors;
         }
 };
 

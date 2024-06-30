@@ -43,6 +43,13 @@ Canvas::Canvas(int size){
         }
     }
 
+    // setting up neighbors 
+    for(int i = 0; i < MATRIX_SIZE; i++){
+        for(int j = 0; j < MATRIX_SIZE; j++){
+            cells[i][j].setNeighbors(findNeighbors(i, j));
+        }
+    }
+
     cells[0][0].setIsStart(true); 
     cells[0][0].setCost(0); 
     cells[0][0].setHeuristic(getHeuristic(cells[0][0], cells[MATRIX_SIZE - 1][MATRIX_SIZE - 1]));
