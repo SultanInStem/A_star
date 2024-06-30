@@ -4,7 +4,7 @@
 #include <cmath>
 #include <random> 
 using std::cout;
-
+int i = 0; 
 
 float randomFloat(float min, float max){
     std::random_device rd; 
@@ -73,15 +73,20 @@ Canvas::Canvas(int size){
         for(int j = 0; j < MATRIX_SIZE; j++){
             cells[i][j].setNeighbors(findNeighbors(i, j));
         }
-    }
+    } 
 
-    cells[0][0].setIsStart(true); 
-    cells[0][0].cost = 0; 
-    cells[0][0].heuristic = getDistance(cells[0][0].getPos(), cells[MATRIX_SIZE - 1][MATRIX_SIZE - 1].getPos());
-    cout << cells[0][0].heuristic << "\n"; 
-    cells[MATRIX_SIZE - 1][MATRIX_SIZE - 1].setIsEnd(true); 
+    nodeEnd = &cells[MATRIX_SIZE - 1][MATRIX_SIZE - 1]; 
+    nodeStart = &cells[0][0];  
 
-    openSet.push_back(&cells[0][0]);
+
+    nodeStart->setIsStart(true); 
+    nodeStart->cost = 0; 
+    nodeStart->heuristic = getDistance(nodeStart->getPos(), nodeEnd->getPos());
+    nodeEnd->setIsEnd(true); 
+
+
+
+    openSet.push_back(nodeStart);
 
     sf::ContextSettings settings; 
     settings.antialiasingLevel = 5;
@@ -106,19 +111,7 @@ void Canvas::update(float dt){
     if(!openSet.empty()){
         // keep evaluating 
         std::vector<Cell*> neighbors;
-        for(int i = openSet.size() - 1; i >= 0; i--){
-            neighbors = openSet[i]->getNeigbors();
-            for(int j = 0; j < neighbors.size(); j++){
-                float dist = getDistance(neighbors[j]->getPos(), openSet[i]->getPos());
-                if(openSet[i]->cost + dist < neighbors[j]->cost){
-                    neighbors[j]->cost = openSet[i]->cost + dist; 
-                    neighbors[j]->heuristic = getDistance(neighbors[j]->getPos(), cells[MATRIX_SIZE - 1][MATRIX_SIZE - 1].getPos()) + dist;
-                    neighbors[j]->setParent(openSet[i]);
-                    openSet.push_back(neighbors[j]); 
-                }
-            }
-            openSet.erase(openSet.begin() + i);
-        }
+        
     }else{
         // no solution 
     }

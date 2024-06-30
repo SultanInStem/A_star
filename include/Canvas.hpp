@@ -17,6 +17,8 @@ class Canvas{
 
         std::vector<Cell*> openSet; 
         std::vector<Cell*> closedSet; 
+        Cell* nodeStart; 
+        Cell* nodeEnd;
 
         std::vector<Cell*> findNeighbors(int i, int j){
             std::vector<Cell*> neighbors;
