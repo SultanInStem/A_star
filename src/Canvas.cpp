@@ -3,9 +3,13 @@
 #include "Cell.hpp"
 #include <cmath>
 #include <random> 
+#include <thread>
 using std::cout;
-
 bool isPathFound = false; 
+
+void threadFunc(){
+    std::this_thread::sleep_for(std::chrono::seconds(1));
+}
 
 
 float randomFloat(float min, float max){
@@ -81,6 +85,7 @@ Canvas::Canvas(int size){
     } 
 
     nodeEnd = &cells[MATRIX_SIZE - 1][MATRIX_SIZE - 1]; 
+
     nodeStart = &cells[0][0];  
 
     nodeStart->cost = 0; 
@@ -109,6 +114,8 @@ void Canvas::run(){
 
 void Canvas::update(float dt){
     // cout << openSet.size() << "\n";
+    // std::thread myThread(threadFunc);
+    // myThread.join();
     if(!openSet.empty()){
         std::vector<Cell*> neighbors; 
         neighbors = openSet[0]->getNeighbors(); 
@@ -139,7 +146,7 @@ void Canvas::update(float dt){
         openSet.erase(openSet.begin());
         quickSort(openSet, 0, openSet.size() - 1);
     }else{
-        cout << "DONE \n";
+        // cout << "DONE \n";
         if(isPathFound){
             Cell* ptr = nodeEnd->getParent();
             while(ptr != nullptr && ptr != nodeStart){
@@ -155,6 +162,23 @@ void Canvas::handleEvents(){
     while(window.pollEvent(event)){
         if(event.type == sf::Event::Closed){
             window.close(); 
+        }
+        if(event.type == sf::Event::KeyPressed){
+
+        }
+        if(event.type == sf::Event::MouseButtonPressed){
+            cout << "you pressed the button \n";
+            switch (event.mouseButton.button){
+                case sf::Mouse::Left: 
+                // choose start node 
+                break; 
+                case sf::Mouse::Right: 
+                // choose end node 
+                break;
+
+                default: 
+                break;
+            }
         }
     }
 }
