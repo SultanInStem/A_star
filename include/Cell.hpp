@@ -17,7 +17,6 @@ class Cell{
 
         float cost = std::numeric_limits<float>::infinity(); // blue
         float heuristic = std::numeric_limits<float>::infinity();  // red
-        float f = 0; 
         void setPosition(sf::Vector2f pos){
             rect.setPosition(pos);
         }
@@ -37,6 +36,14 @@ class Cell{
         }
         void setParent(Cell*& newParent){
             parent = newParent; 
+        }
+        void reset(){
+            parent = nullptr;
+            isVisited = false; 
+            cost = std::numeric_limits<float>::infinity(); 
+            heuristic = std::numeric_limits<float>::infinity(); 
+            if(isWall) rect.setFillColor(sf::Color::Black);
+            else rect.setFillColor(sf::Color::White);
         }
         void setColor(sf::Color color){
             rect.setFillColor(color);
