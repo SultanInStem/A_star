@@ -113,33 +113,33 @@ void Canvas::resetCells(){
 void Canvas::run(){
     float dt; 
     while(window.isOpen()){
-        dt = clock.restart().asSeconds();
         handleEvents(); 
-        update(dt); 
+        update(); 
         render(); 
     }
 }
 
-void Canvas::update(float dt){
+void Canvas::update(){
     // cout << openSet.size() << "\n";
     // std::thread myThread(threadFunc);
     // myThread.join();
     if(!openSet.empty()){
+        Cell* currentNode = openSet[0]; 
         std::vector<Cell*> neighbors; 
-        neighbors = openSet[0]->getNeighbors(); 
+        neighbors = currentNode->getNeighbors(); 
         for(Cell* item : neighbors){
             if(item == nodeEnd){
-                item->setParent(openSet[0]);
+                item->setParent(currentNode);
                 openSet.clear(); 
                 isPathFound = true;
                 return;
             } 
             if(item->isWall) continue;
-            float distanceBetweenNodes = getDistance(openSet[0]->getPos(), item->getPos());
-            if(openSet[0]->cost < item->cost + distanceBetweenNodes){
+            float distanceBetweenNodes = getDistance(currentNode->getPos(), item->getPos());
+            if(currentNode->cost < item->cost + distanceBetweenNodes){
                 // update the neighbor 
-                item->setParent(openSet[0]);
-                item->cost = openSet[0]->cost + distanceBetweenNodes;
+                item->setParent(currentNode);
+                item->cost = currentNode->cost + distanceBetweenNodes;
                 item->heuristic = getHeuristic(item, nodeEnd);
 
             }
@@ -149,8 +149,8 @@ void Canvas::update(float dt){
                 openSet.push_back(item); 
             }
         }
-        openSet[0]->isVisited = true; 
-        openSet[0]->setColor(sf::Color(128,128,128));
+        currentNode->isVisited = true; 
+        currentNode->setColor(sf::Color(128,128,128));
         openSet.erase(openSet.begin());
         quickSort(openSet, 0, openSet.size() - 1);
     }else{

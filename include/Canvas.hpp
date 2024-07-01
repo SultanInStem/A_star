@@ -6,9 +6,8 @@
 class Canvas{
     private: 
         sf::RenderWindow window; 
-        sf::Clock clock;
 
-        void update(float dt);
+        void update();
         void handleEvents(); 
         void render();
 
