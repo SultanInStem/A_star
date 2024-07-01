@@ -7,10 +7,6 @@
 using std::cout;
 bool isPathFound = false; 
 
-void threadFunc(){
-    std::this_thread::sleep_for(std::chrono::seconds(1));
-}
-
 
 float randomFloat(float min, float max){
     std::random_device rd; 
@@ -25,12 +21,12 @@ void swap(Cell*& a, Cell*& b) {
     b = temp;
 }
 int partition(std::vector<Cell*>& arr, int low, int high) {
-    float pivot = arr[high]->heuristic; // Pivot element
-    int i = low - 1; // Index of smaller element
+    float pivot = arr[high]->heuristic; 
+    int i = low - 1; 
 
     for (int j = low; j < high; ++j) {
         if (arr[j]->heuristic < pivot) {
-            ++i; // Increment index of smaller element
+            ++i; 
             swap(arr[i], arr[j]);
         }
     }
@@ -41,7 +37,6 @@ void quickSort(std::vector<Cell*>& arr, int low, int high) {
     if (low < high) {
         int pi = partition(arr, low, high); // Partitioning index
 
-        // Recursively sort elements before and after partition
         quickSort(arr, low, pi - 1);
         quickSort(arr, pi + 1, high);
     }
@@ -71,7 +66,7 @@ Canvas::Canvas(int size){
             cells[row][col].setPosition(sf::Vector2f(x, y));
             cells[row][col].setSize(sf::Vector2f(cellWidth, cellHeight));
             float random = randomFloat(0,10);
-            if(random < 3){
+            if(random < 3.5){
                 cells[row][col].setIsWall(true);
             }
         }
@@ -85,6 +80,8 @@ Canvas::Canvas(int size){
     } 
 
     nodeEnd = &cells[MATRIX_SIZE - 1][MATRIX_SIZE - 1]; 
+    nodeEnd->isWall = false;
+
 
     nodeStart = &cells[0][0];  
 
@@ -111,7 +108,6 @@ void Canvas::resetCells(){
     }
 }
 void Canvas::run(){
-    float dt; 
     while(window.isOpen()){
         handleEvents(); 
         update(); 
@@ -120,9 +116,6 @@ void Canvas::run(){
 }
 
 void Canvas::update(){
-    // cout << openSet.size() << "\n";
-    // std::thread myThread(threadFunc);
-    // myThread.join();
     if(!openSet.empty()){
         Cell* currentNode = openSet[0]; 
         std::vector<Cell*> neighbors; 
@@ -196,7 +189,6 @@ void Canvas::handleEvents(){
                     nodeStart->heuristic = getHeuristic(nodeStart, nodeEnd);
                     openSet.push_back(nodeStart); 
                 break;
-
                 default: 
                 break;
             }
