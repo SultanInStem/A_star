@@ -53,7 +53,7 @@ class Cell{
         std::vector<Cell*> getNeighbors(){
             return neighbors;
         }
-        Cell* getParent(){
+        Cell*& getParent(){
             return parent; 
         }
 };

@@ -4,7 +4,6 @@
 #include <cmath>
 #include <random> 
 using std::cout;
-int i = 0; 
 
 float randomFloat(float min, float max){
     std::random_device rd; 
@@ -62,7 +61,7 @@ Canvas::Canvas(int size){
             cells[row][col].setPosition(sf::Vector2f(x, y));
             cells[row][col].setSize(sf::Vector2f(cellWidth, cellHeight));
             float random = randomFloat(0,10);
-            if(random < 2){
+            if(random < 3){
                 cells[row][col].setIsWall(true);
             }
         }
@@ -103,11 +102,42 @@ void Canvas::run(){
 }
 
 void Canvas::update(float dt){
-
+    std::vector<Cell*> neighbors; 
     if(!openSet.empty()){
+        neighbors = openSet[0]->getNeighbors(); 
+        for(auto item : neighbors){
+            if(item == nodeEnd){
+                item->setParent(openSet[0]);
+                openSet.clear(); 
+                return;
+            }else if(item->isWall) continue;
+            float distanceBetweenNodes = getDistance(openSet[0]->getPos(), item->getPos());
+            if(openSet[0]->cost < item->cost + distanceBetweenNodes){
+                // update the neighbor 
+                item->setParent(openSet[0]);
+                item->cost = openSet[0]->cost + distanceBetweenNodes;
+                item->heuristic = getDistance(item->getPos(), nodeEnd->getPos());
+
+            }
+            if(!item->isVisited){
+                item->isVisited = true;
+                openSet.push_back(item); 
+            }
+        }
+        openSet[0]->isVisited = true; 
+        openSet.erase(openSet.begin());
         // quickSort(openSet, 0, openSet.size() - 1);
+        std::sort(openSet.begin(), openSet.end(), [](Cell* a, Cell*b){
+            return (a->cost + a->heuristic) < (b->cost + b->heuristic);
+        });
     }else{
-        // cout << "Hello there \n";
+        cout << "Done \n";
+        Cell* ptr = nodeEnd->getParent(); 
+        ptr->setColor(sf::Color::Blue);
+        while(ptr != nodeStart && ptr != nullptr){
+            ptr = ptr->getParent(); 
+            ptr->setColor(sf::Color::Blue);
+        }
     }
 }
 
