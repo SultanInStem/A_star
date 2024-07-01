@@ -5,6 +5,9 @@
 #include <random> 
 using std::cout;
 
+bool isPathFound = false; 
+
+
 float randomFloat(float min, float max){
     std::random_device rd; 
     std::mt19937 gen(rd());
@@ -102,15 +105,18 @@ void Canvas::run(){
 }
 
 void Canvas::update(float dt){
-    std::vector<Cell*> neighbors; 
+    cout << openSet.size() << "\n";
     if(!openSet.empty()){
+        std::vector<Cell*> neighbors; 
         neighbors = openSet[0]->getNeighbors(); 
-        for(auto item : neighbors){
+        for(Cell* item : neighbors){
             if(item == nodeEnd){
                 item->setParent(openSet[0]);
                 openSet.clear(); 
+                isPathFound = true;
                 return;
-            }else if(item->isWall) continue;
+            } 
+            if(item->isWall) continue;
             float distanceBetweenNodes = getDistance(openSet[0]->getPos(), item->getPos());
             if(openSet[0]->cost < item->cost + distanceBetweenNodes){
                 // update the neighbor 
@@ -126,18 +132,22 @@ void Canvas::update(float dt){
         }
         openSet[0]->isVisited = true; 
         openSet.erase(openSet.begin());
-        // quickSort(openSet, 0, openSet.size() - 1);
-        std::sort(openSet.begin(), openSet.end(), [](Cell* a, Cell*b){
-            return (a->cost + a->heuristic) < (b->cost + b->heuristic);
-        });
-    }else{
-        cout << "Done \n";
-        Cell* ptr = nodeEnd->getParent(); 
-        ptr->setColor(sf::Color::Blue);
-        while(ptr != nodeStart && ptr != nullptr){
-            ptr = ptr->getParent(); 
-            ptr->setColor(sf::Color::Blue);
+        quickSort(openSet, 0, openSet.size() - 1);
+        // std::sort(openSet.begin(), openSet.end(), [](Cell* a, Cell*b){
+        //     return (a->cost + a->heuristic) < (b->cost + b->heuristic);
+        // });
+        cout << "HEURISTICS \n"; 
+        for(int i = 0; i < openSet.size(); i++){
+            cout << openSet[i]->heuristic << "\n"; 
         }
+    }else{
+        cout << "DONE \n";
+        Cell* ptr = nodeEnd->getParent();
+        while(ptr != nullptr && ptr != nodeStart){
+            ptr->setColor(sf::Color::Blue);
+            ptr = ptr->getParent(); 
+        }
+        isPathFound = true; 
     }
 }
 
