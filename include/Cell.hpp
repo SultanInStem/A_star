@@ -50,8 +50,11 @@ class Cell{
         float getLength(){
             return rect.getSize().x; 
         }
-        std::vector<Cell*> getNeigbors(){
+        std::vector<Cell*> getNeighbors(){
             return neighbors;
+        }
+        Cell* getParent(){
+            return parent; 
         }
 };
 

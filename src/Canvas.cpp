@@ -81,14 +81,12 @@ Canvas::Canvas(int size){
     nodeStart->cost = 0; 
     nodeStart->heuristic = getDistance(nodeStart->getPos(), nodeEnd->getPos());
 
-
-
     openSet.push_back(nodeStart);
 
     sf::ContextSettings settings; 
     settings.antialiasingLevel = 5;
     window.create(sf::VideoMode(size, size), "A_star",  sf::Style::Titlebar | sf::Style::Close, settings);
-    window.setFramerateLimit(60); 
+    window.setFramerateLimit(60);  
 }
 
 Canvas::~Canvas(){   
@@ -105,12 +103,11 @@ void Canvas::run(){
 }
 
 void Canvas::update(float dt){
+
     if(!openSet.empty()){
-        // keep evaluating 
-        std::vector<Cell*> neighbors;
-        
+        // quickSort(openSet, 0, openSet.size() - 1);
     }else{
-        // no solution 
+        // cout << "Hello there \n";
     }
 }
 
