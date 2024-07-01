@@ -96,8 +96,10 @@ Canvas::Canvas(int size){
     window.setFramerateLimit(60);  
 }
 
-Canvas::~Canvas(){   
-}
+Canvas::~Canvas(){};
+
+
+
 void Canvas::resetCells(){
     isPathFound = false; 
     openSet.clear(); 
@@ -116,19 +118,27 @@ void Canvas::run(){
 }
 
 void Canvas::update(){
-    if(!openSet.empty()){
+    if(!openSet.empty()){ 
+        // This is a main loop of A* 
+        // openSet serves a purpose of a heap  
+        // so we access only 0 index as a current node
         Cell* currentNode = openSet[0]; 
-        std::vector<Cell*> neighbors; 
-        neighbors = currentNode->getNeighbors(); 
+        std::vector<Cell*> neighbors = currentNode->getNeighbors(); 
         for(Cell* item : neighbors){
+            // if we reached the end node 
+            // we must must terminate tho it might not be the best path 
+            // the optimization is worth it and this path is good enough 
             if(item == nodeEnd){
                 item->setParent(currentNode);
                 openSet.clear(); 
                 isPathFound = true;
                 return;
             } 
+            // we do not check nodes that are walls 
             if(item->isWall) continue;
             float distanceBetweenNodes = getDistance(currentNode->getPos(), item->getPos());
+
+            // main condition of the A* 
             if(currentNode->cost < item->cost + distanceBetweenNodes){
                 // update the neighbor 
                 item->setParent(currentNode);
@@ -136,6 +146,8 @@ void Canvas::update(){
                 item->heuristic = getHeuristic(item, nodeEnd);
 
             }
+            // mark visited notes so
+            // we don't process them again 
             if(!item->isVisited){
                 item->isVisited = true;
                 item->setColor(sf::Color(128,128,128));
@@ -144,10 +156,11 @@ void Canvas::update(){
         }
         currentNode->isVisited = true; 
         currentNode->setColor(sf::Color(128,128,128));
+        // pop the current node from the heap 
+        // and sort the heap based on heauristics 
         openSet.erase(openSet.begin());
         quickSort(openSet, 0, openSet.size() - 1);
     }else{
-        // cout << "DONE \n";
         if(isPathFound){
             Cell* ptr = nodeEnd->getParent();
             while(ptr != nullptr && ptr != nodeStart){
