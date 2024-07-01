@@ -16,7 +16,6 @@ class Canvas{
         Cell cells[MATRIX_SIZE][MATRIX_SIZE]; 
 
         std::vector<Cell*> openSet; 
-        std::vector<Cell*> closedSet; 
         Cell* nodeStart; 
         Cell* nodeEnd;
 
@@ -38,6 +37,7 @@ class Canvas{
 
             return neighbors;
         }
+        void resetCells();
 
     public: 
         Canvas(int size = 1000); 

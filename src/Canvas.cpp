@@ -101,7 +101,15 @@ Canvas::Canvas(int size){
 
 Canvas::~Canvas(){   
 }
-
+void Canvas::resetCells(){
+    isPathFound = false; 
+    openSet.clear(); 
+    for(int i = 0; i < MATRIX_SIZE; i++){
+        for(int j = 0; j < MATRIX_SIZE; j++){
+            cells[i][j].reset();
+        }
+    }
+}
 void Canvas::run(){
     float dt; 
     while(window.isOpen()){
@@ -174,13 +182,7 @@ void Canvas::handleEvents(){
             switch (event.mouseButton.button){
                 case sf::Mouse::Left: 
                     // choose start node 
-                    isPathFound = false;
-                    openSet.clear(); 
-                    for(int i = 0; i < MATRIX_SIZE; i ++){
-                        for(int j = 0; j < MATRIX_SIZE; j++){
-                            cells[i][j].reset();
-                        }
-                    }
+                    resetCells();
                     nodeStart = &cells[row][col];
                     nodeStart->cost = 0; 
                     nodeStart->heuristic = getHeuristic(nodeStart, nodeEnd);  
@@ -188,6 +190,11 @@ void Canvas::handleEvents(){
                 break; 
                 case sf::Mouse::Right: 
                     // choose end node 
+                    resetCells(); 
+                    nodeEnd = &cells[row][col];  
+                    nodeStart->cost = 0; 
+                    nodeStart->heuristic = getHeuristic(nodeStart, nodeEnd);
+                    openSet.push_back(nodeStart); 
                 break;
 
                 default: 
