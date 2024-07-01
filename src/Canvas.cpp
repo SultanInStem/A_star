@@ -105,7 +105,7 @@ void Canvas::run(){
 }
 
 void Canvas::update(float dt){
-    cout << openSet.size() << "\n";
+    // cout << openSet.size() << "\n";
     if(!openSet.empty()){
         std::vector<Cell*> neighbors; 
         neighbors = openSet[0]->getNeighbors(); 
@@ -133,21 +133,19 @@ void Canvas::update(float dt){
         openSet[0]->isVisited = true; 
         openSet.erase(openSet.begin());
         quickSort(openSet, 0, openSet.size() - 1);
-        // std::sort(openSet.begin(), openSet.end(), [](Cell* a, Cell*b){
-        //     return (a->cost + a->heuristic) < (b->cost + b->heuristic);
-        // });
         cout << "HEURISTICS \n"; 
         for(int i = 0; i < openSet.size(); i++){
             cout << openSet[i]->heuristic << "\n"; 
         }
     }else{
         cout << "DONE \n";
-        Cell* ptr = nodeEnd->getParent();
-        while(ptr != nullptr && ptr != nodeStart){
-            ptr->setColor(sf::Color::Blue);
-            ptr = ptr->getParent(); 
+        if(isPathFound){
+            Cell* ptr = nodeEnd->getParent();
+            while(ptr != nullptr && ptr != nodeStart){
+                ptr->setColor(sf::Color::Blue);
+                ptr = ptr->getParent(); 
+            }
         }
-        isPathFound = true; 
     }
 }
 
