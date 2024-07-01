@@ -24,3 +24,10 @@ make
 ```sh 
 ./bin/main
 ```
+
+
+## References
+https://www.geeksforgeeks.org/a-search-algorithm/
+https://en.wikipedia.org/wiki/A*_search_algorithm
+https://youtu.be/A60q6dcoCjw?si=6jONgjsgPCbUtE45
+https://youtu.be/icZj67PTFhc?si=w3FPw0i6ewTu4ILc
