@@ -130,10 +130,12 @@ void Canvas::update(float dt){
             }
             if(!item->isVisited){
                 item->isVisited = true;
+                item->setColor(sf::Color(128,128,128));
                 openSet.push_back(item); 
             }
         }
         openSet[0]->isVisited = true; 
+        openSet[0]->setColor(sf::Color(128,128,128));
         openSet.erase(openSet.begin());
         quickSort(openSet, 0, openSet.size() - 1);
     }else{
