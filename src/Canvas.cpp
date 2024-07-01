@@ -163,17 +163,22 @@ void Canvas::handleEvents(){
         if(event.type == sf::Event::Closed){
             window.close(); 
         }
-        if(event.type == sf::Event::KeyPressed){
-
-        }
         if(event.type == sf::Event::MouseButtonPressed){
-            cout << "you pressed the button \n";
+            float mouseX = sf::Mouse::getPosition(window).x;
+            float mouseY = sf::Mouse::getPosition(window).y;
+            float cellWidth = window.getSize().x / MATRIX_SIZE;
+            float cellHeight = window.getSize().y / MATRIX_SIZE; 
+            int row = (int) mouseX / cellWidth; 
+            int col = (int) mouseY / cellHeight;
             switch (event.mouseButton.button){
                 case sf::Mouse::Left: 
-                // choose start node 
+                    // choose start node 
+
+                    cout << "row " << row << " col " << col << "\n"; 
+                    cells[col][row].setColor(sf::Color::Green);
                 break; 
                 case sf::Mouse::Right: 
-                // choose end node 
+                    // choose end node 
                 break;
 
                 default: 
