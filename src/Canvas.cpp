@@ -43,9 +43,12 @@ void quickSort(std::vector<Cell*>& arr, int low, int high) {
     }
 }
 
-float getHeuristic(Cell& a, Cell& b){
+float getHeuristic(Cell*& a, Cell*& b){
     // diagonal distance heuristic 
-    return 0; 
+    float dx = abs(a->getPos().x - b->getPos().x); 
+    float dy = abs(a->getPos().y - b->getPos().y); 
+    float h =  1 * (dx + dy) + (sqrt(2) - 2 * 1) * std::min(dx, dy);
+    return h; 
 }
 float getDistance(const sf::Vector2f& A, const sf::Vector2f& B){
     return sqrt(pow(A.x - B.x, 2) + pow(A.y - B.y, 2));
@@ -122,7 +125,7 @@ void Canvas::update(float dt){
                 // update the neighbor 
                 item->setParent(openSet[0]);
                 item->cost = openSet[0]->cost + distanceBetweenNodes;
-                item->heuristic = getDistance(item->getPos(), nodeEnd->getPos());
+                item->heuristic = getHeuristic(item, nodeEnd);
 
             }
             if(!item->isVisited){
@@ -133,10 +136,6 @@ void Canvas::update(float dt){
         openSet[0]->isVisited = true; 
         openSet.erase(openSet.begin());
         quickSort(openSet, 0, openSet.size() - 1);
-        cout << "HEURISTICS \n"; 
-        for(int i = 0; i < openSet.size(); i++){
-            cout << openSet[i]->heuristic << "\n"; 
-        }
     }else{
         cout << "DONE \n";
         if(isPathFound){
